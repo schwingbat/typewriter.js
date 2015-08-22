@@ -24,7 +24,7 @@ _Optional._ A function to execute after the text is done being written. This can
 ### All Together Now
 
 ```
-typewriter.write("Hello World!", 0.5, , 500, function() {
+typewriter.write("Hello World!", 0.5, 500, function() {
 	console.log("Printed Hello World!");
 });
 ```
