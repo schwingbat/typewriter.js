@@ -29,13 +29,13 @@ typewriter.write("Hello World!", 0.5, 500, function() {
 });
 ```
 
-The code above will print "Hello World!" at half the default speed, then wait half a second before logging "Printed Hello World!" to the console. Easy, right? Of course the console.log and delay are unnecessary, so it would probably look more like this on a real website;
+The code above will print "Hello World!" at half the default speed, then wait half a second before logging "Printed Hello World!" to the console. Easy, right? Of course the `console.log` and delay are unnecessary, so it would probably look more like this on a real website;
 
 ```
 typewriter.write("Hello World!", 0.5);
 ```
 
-After you've played around with Typewriter a bit, you will probably find yourself wanting to execute a series of typewriter.write() commands in a specific order, for more granular control over the timing and speed of each section of text. 
+After you've played around with Typewriter a bit, you will probably find yourself wanting to execute a series of `typewriter.write()` commands in a specific order, for more granular control over the timing and speed of each section of text. 
 
 Let's say you wanted to write "One Two Three Four", clearing the screen and cutting the typing speed in half for each word. You could do
 
