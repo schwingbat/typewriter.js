@@ -1,7 +1,6 @@
 <!doctype html>
 	<head>
 		<title>Typewriter | tonymccoy.me</title>
-		<script src="./js/underscore.js"></script>
 		<script src="./js/typewriter.js"></script>
 		<style>
 			html { padding: 1rem; }
@@ -23,28 +22,28 @@
 	</body>
 	
 	<script>
-		var cursor = document.querySelector("#type-cursor"),
-			text = "Hello there and welcome to Typewriter! A frankly horrific mess of nested callbacks with no practical purpose whatsoever aside from looking totally badass! Right now I've got a pretty fresh terminal theme going on, but you can easily switch themes or make your own! Just style with CSS and call write('Your text here!').\n\nAnd if your text output element's white-space property is set to pre-wrap, you can type backslash-N twice to create a new paragraph! ",
-			text2 = "Eeeeeewwwwwww!",
-			text3 = "Anyway. That's Typewriter! But wait... It's interactive! Go ahead and type something below.",
-			text4 = " :D\n\n",
-			text5 = "Configure Terminal's settings by typing SETTINGS. Start from the beginning with your new settings by typing RESTART.";
-
-		// write(text to write, speed, callback, time to wait (optional));
-
-		write(text, 0.5, function() {
-			write(text2, 5, function() {
-				clear(function() {
-					write(text3, 0.8, function() {
-						write(text4, 1, function() {
-							write(text5, 0.5, function() {
-								turnInput('on');
+		var tw = typewriter;
+		
+		tw.write(
+			"Welcome to Typewriter! 100 lines of JavaScript with no practical purpose other than to look totally badass! It types out whatever text you give it,", 1, 120, function() {
+				tw.write(" at whatever speed you want!", 0.3, 300, function() {
+					tw.write("\n\nAnd you can even", 1, 500, function() {
+						tw.write(" control", 1, 500, function() {
+							tw.write(" the", 1, 500, function() {
+								tw.write(" timing!", 1, 1400, function() {
+									tw.clear(function() {
+										tw.write("Or clear the screen and start again!\n\n", 1, 300, function() {
+											tw.write("It's completely stylable with CSS, so if you're not in the mood to hack the planet, you can toss this terminal theme and write your own!\n\n", 1, 500, function() {
+												tw.write("If you know JavaScript, feel free to contribute. And feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/vantaure/typewriter.js");
+											});
+										});
+									}, 400);
+								});
 							});
-						}, 1000); // wait one second before executing callback
+						});
 					});
 				});
-			}, 1200); // wait 1200 ms before executing callback
-		});
+			});
 	</script>
 	
 </html>
