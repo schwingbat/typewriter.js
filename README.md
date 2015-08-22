@@ -24,9 +24,9 @@ _Optional._ A function to execute after the text is done being written. This can
 ### All Together Now
 
 ```
-typewriter.write("Hello World!", 0.5, function() {
+typewriter.write("Hello World!", 0.5, , 500, function() {
 	console.log("Printed Hello World!");
-}, 500);
+});
 ```
 
 The code above will print "Hello World!" at half the default speed, then wait half a second before logging "Printed Hello World!" to the console. Easy, right? Of course the console.log and delay are unnecessary, so it would probably look more like this on a real website;
@@ -40,19 +40,19 @@ After you've played around with Typewriter a bit, you will probably find yoursel
 Let's say you wanted to write "One Two Three Four", clearing the screen and cutting the typing speed in half for each word. You could do
 
 ```
-typewriter.write("One", 1, function() {
+typewriter.write("One", 1, 250, function() {
 	typewriter.clear(function() {
-		typewriter.write("Two", 0.5, function() {
+		typewriter.write("Two", 0.5, 250, function() {
 			typewriter.clear(function() {
-				typewriter.write("Three", 0.25, function() {
+				typewriter.write("Three", 0.25, 250, function() {
 					typewriter.clear(function() {
 						typewriter.write("Four", 0.125);
 					});
-				}, 250);
+				});
 			})
-		}, 250);
+		});
 	});
-}, 250);
+});
 ```
 
 It's not an optimal solution, but I'm pretty new at JavaScript and I'm still getting the hang of asynchronous functions. If you know of a simple enough way to get that under control, submit a pull request!
