@@ -30,4 +30,12 @@ body {
 	background: lawngreen;
 	box-shadow: 0 0 5px rgba(124,252,0,0.5);
 }
+
+.github {
+	position: absolute;
+	bottom: 1rem; right: 1rem;
+	font-size: 13px;
+	color: lawngreen;
+}
+
 .disabled { display: none; }

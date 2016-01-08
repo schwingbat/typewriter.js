@@ -37,7 +37,7 @@ typewriter.write("Hello World!", 0.5);
 
 After you've played around with Typewriter a bit, you will probably find yourself wanting to execute a series of `typewriter.write()` commands in a specific order, for more granular control over the timing and speed of each section of text. 
 
-Let's say you wanted to write "One Two Three Four", clearing the screen and cutting the typing speed in half for each word. You could do
+Let's say you wanted to write "One Two Three Four", clearing the screen and cutting the typing speed in half for each word. The current solution to long, complex chains is the ever-popular "callback hell." A real chaining system is on the To-Do list.
 
 ```
 typewriter.write("One", 1, 250, function() {
@@ -54,8 +54,6 @@ typewriter.write("One", 1, 250, function() {
 	});
 });
 ```
-
-The current solution to long, complex chains is the ever-popular "callback hell." A real chaining system is on the To-Do List.
 
 ## To-Do List
 
