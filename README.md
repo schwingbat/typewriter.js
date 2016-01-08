@@ -55,5 +55,9 @@ typewriter.write("One", 1, 250, function() {
 });
 ```
 
-It's not an optimal solution, but I'm pretty new at JavaScript and I'm still getting the hang of asynchronous functions. If you know of a simple enough way to get that under control, submit a pull request!
+The current solution to long, complex chains is the ever-popular "callback hell." A real chaining system is on the To-Do List.
 
+## To-Do List
+
+- [ ] Implement a real chaining solution, using promises or otherwise.
+- [ ] Add a text file parsing system, so really long sections can be written in plain text with inline tags for speed changes, timing and clearing.
