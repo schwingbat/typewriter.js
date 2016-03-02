@@ -1,0 +1,28 @@
+/* Styles */
+
+html {
+	background: #d0c59f;
+}
+
+body {
+	color: #423c27;
+	font-family: monospace;
+}
+
+#text-area {
+	text-shadow: 0 -1px 0.5px #ad9d64;
+}
+
+.cursor {
+    display: none;
+}
+
+.github {
+	position: absolute;
+	bottom: 1rem; right: 1rem;
+	font-size: 13px;
+	color: #423c27;
+    text-shadow: 0 -1px 0.5px #ad9d64;
+}
+
+.disabled { display: none; }

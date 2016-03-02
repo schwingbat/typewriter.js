@@ -1,7 +1,7 @@
 <!doctype html>
 	<head>
 		<title>Typewriter | tonymccoy.me</title>
-		<script src="js/typewriter.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
 			html { padding: 1rem; }
 			body {
@@ -19,33 +19,53 @@
 		<div id="user-prompt" class="disabled">
 			&gt; <span id="input"></span><span id="user-cursor" class="cursor disabled">&nbsp;</span>
 		</div>
-		<a class="github" href="https://www.github.com/vantaure/typewriter">Get it on GitHub</a>
-	</body>
-	
-	<script>
-		var tw = typewriter;
-		
-		tw.write(
-			"Welcome to Typewriter! 100 lines of JavaScript with no practical purpose other than to look totally badass! It types out whatever text you give it,", 1, 120, function() {
-				tw.write(" at whatever speed you want!", 0.3, 300, function() {
-					tw.write("\n\nAnd you can even", 1, 500, function() {
-						tw.write(" control", 1, 500, function() {
-							tw.write(" the", 1, 500, function() {
-								tw.write(" timing!", 1, 1400, function() {
-									tw.clear(function() {
-										tw.write("Or clear the screen and start again!\n\n", 1, 300, function() {
-											tw.write("It's completely stylable with CSS, so if you're not in the mood to hack the planet, you can toss this terminal theme and write your own!\n\n", 1, 500, function() {
-												tw.write("If you know JavaScript, feel free to contribute. And feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/vantaure/typewriter.js");
-											});
-										});
-									}, 400);
-								});
-							});
-						});
-					});
-				});
-			});
+		<a class="github" href="github.com/vantaure/typewriter">Get it on GitHub</a>
 
-	</script>
-	
+        <script src="js/typewriter.js"></script>
+        <script>
+    		var tw = new Typewriter({
+                "outputElement": "#output",
+                "cursorElement": "#type-cursor",
+            });
+
+            // The New, Wonderful Chain Method
+
+            tw.chain([
+                "[write, 1, 120]Welcome to Typewriter! 130 lines of Javascript with no practical purpose other than to look totally badass! It types out whatever text you give it,",
+                "[write, 0.3, 300] at whatever speed you want!",
+                "[write, 1, 500]\n\nAnd you can even",
+                "[write, 1, 500] control",
+                "[write, 1, 500] the",
+                "[write, 1, 1400] timing!",
+                "[clear, 400]",
+                "[write, 1, 300]Or clear the screen and start again!\n\n",
+                "[write, 1, 500]It's completely stylable with CSS, so if you're not in the mood to hack the planet you can toss this terminal theme and write your own.\n\n",
+                "[write, 1, 500]If you know JavaScript, feel free to contribute. And feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/vantaure/typewriter.js"
+            ])
+
+            // The Old, Horrible Callback Hell Method
+
+    		// tw.write(
+    		// 	"Welcome to Typewriter! 100 lines of JavaScript with no practical purpose other than to look totally badass! It types out whatever text you give it,", 1, 120, function() {
+    		// 		tw.write(" at whatever speed you want!", 0.3, 300, function() {
+    		// 			tw.write("\n\nAnd you can even", 1, 500, function() {
+    		// 				tw.write(" control", 1, 500, function() {
+    		// 					tw.write(" the", 1, 500, function() {
+    		// 						tw.write(" timing!", 1, 1400, function() {
+    		// 							tw.clear(function() {
+    		// 								tw.write("Or clear the screen and start again!\n\n", 1, 300, function() {
+    		// 									tw.write("It's completely stylable with CSS, so if you're not in the mood to hack the planet, you can toss this terminal theme and write your own!\n\n", 1, 500, function() {
+    		// 										tw.write("If you know JavaScript, feel free to contribute. And feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/vantaure/typewriter.js");
+    		// 									});
+    		// 								});
+    		// 							}, 400);
+    		// 						});
+    		// 					});
+    		// 				});
+    		// 			});
+    		// 		});
+    		// 	});
+
+    	</script>
+	</body>
 </html>
