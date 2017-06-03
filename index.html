@@ -25,15 +25,12 @@
         <script>
 			// Create the typewriter instance.
 			// Give it a container to put the text in (and optionally one to use as the cursor.)
-			var writer = Typewriter({
-				el: "#output",
-				cursor: "#type-cursor"
-			});
+			var writer = Typewriter({ el: "#output" });
 
 			var listener;
 
 			function onClick() {
-				document.querySelector('#output').textContent = '';
+				document.querySelector("#output").textContent = "";
 
 				writer
 					.speed(1)
@@ -93,10 +90,10 @@
 					.break()
 					.write("Seriously, check it out.");
 
-				window.removeEventListener('click', onClick);
+				window.removeEventListener("click", onClick);
 			}
 
-			listener = window.addEventListener('click', onClick);
+			listener = window.addEventListener("click", onClick);
     	</script>
 	</body>
 </html>
