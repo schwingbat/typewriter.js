@@ -1,7 +1,7 @@
 /**************************
  * typewriter.js v2.0.0
  *
- * Copyright (c) 2015 Tony McCoy
+ * Copyright (c) 2015-2017 Tony McCoy
  * http://www.tonymccoy.me
  *
  * This software is distributed under the MIT License
@@ -9,195 +9,177 @@
  */
 
 (function() {
-    'use strict';
+	var Writer = function(config) {
+		"use strict";
 
-    // Writer Prototype
+		// Clone config to prevent side effects.
+		config = Object.assign({}, config);
 
-    var Writer = {
-        queue: [],
-        config: {
-            speed: 1,
-            punctuationDelay: false,
-            punctuationTiming: {
-                // Time to pause for punctuation in milliseconds.
-                // Any character can be assigned a value. These are just my defaults.
-                '.': 400,
-                ',': 250,
-                '?': 400,
-                '!': 400
-            }  
-        },
-        timeout: 0,
-        _bump: function() {
-            if (!this.running) {
-                this.running = true;
-                this._tick();
-            }
-        },
-        _enqueue: function(func) {
-            this.queue.push(func.bind(this, this._tick.bind(this)));
-            this._bump();
-        },
-        _tick: function() {
-            if (this.queue[0]) {
-                if (this.timeout <= 0) {
-                    this.queue.shift()();
-                } else {
-                    const now = Date.now();
-                    this.timeout = Math.max(0, this.timeout - (now - (this.lastTick || now)));
-                    this.lastTick = now;
-                    window.requestAnimationFrame(this._tick.bind(this));
-                }
-            } else {
-                this.running = false;
-            }
-        },
-        speed: function(factor) {
-            // Set the speed of writing. Persists until set again.
+		if (typeof config.el === "string") {
+			config.el = document.querySelector(config.el);
+		}
 
-            this._enqueue(function(next) {
-                this.config.speed = parseFloat(factor);
-                next();
-            });
+		if (config.speed == null) {
+			config.speed = 1;
+		}
 
-            return this;
-        },
-        write: function(text) {
-            // Print the given text.
+		// Abort if no valid 'el' was found.
+		if (!config.el || !(config.el instanceof HTMLElement)) {
+			throw Error("el property should be either a string or a valid DOM element.");
+		}
 
-            this._enqueue(function(next) {
-                var el = this.config.el;
-                var speed = this.config.speed;
-                
-                if (speed == 0) {
-                    el.appendChild(document.createTextNode(text));
-                    return next();
-                } else {
-                    var punc = this.config.punctuationTiming || {};
-                    var puncPause = this.config.punctuationPause;
+		var queue = [];
+		var timeout = 0;
+		var running = false;
+		var lastTick = 0;
 
-                    var chars = text.split('');
-                    var i = 0;
+		// Private
 
-                    var print = function() {
-                        var char = chars[i];
-                        el.appendChild(document.createTextNode(char));
-                        i += 1;
-                        if (chars[i]) {
-                            var pause = 0;
-                            if (puncPause && punc[chars[i]]) {
-                                pause = punc[chars[i]] || 0;
-                            }
-                            window.setTimeout(print, (50 + pause) / speed || 0);
-                        } else {
-                            return next();
-                        }
-                    }
+		var bump = function() {
+			if (!running) {
+				running = true;
+				tick();
+			}
+		};
 
-                    print();
-                }
-            });
+		var enqueue = function(func) {
+			queue.push(func);
+			bump();
+		};
 
-            return this;
-        },
-        backspace: function(distance) {
-            // Delete a certain number of characters character-by-character.
-            // Like the inverse of 'write'
+		var tick = function() {
+			if (queue[0]) {
+				if (timeout <= 0) {
+					queue.shift()(tick);
+				} else {
+					var now = Date.now();
+					timeout = Math.max(0, timeout - (now - (lastTick || now)));
+					lastTick = now;
+					window.requestAnimationFrame(tick);
+				}
+			} else {
+				running = false;
+			}
+		};
 
-            this._enqueue(function(next) {
-                var el = this.config.el;
-                var speed = this.config.speed;
-                
-                var count = 0;
+		// Public
 
-                var back = function() {
-                    if (el.lastChild) {
-                        el.removeChild(el.lastChild);
-                        count += 1;
-                    } else {
-                        return next();
-                    }
+		this.speed = function(factor) {
+			enqueue(function(next) {
+				config.speed = parseFloat(factor);
+				next();
+			});
 
-                    if (count === distance) {
-                        return next();
-                    }
+			return this;
+		};
 
-                    return window.setTimeout(back, 50 / speed || 0);
-                }
+		this.write = function(text) {
+			// Print the given text.
 
-                back();
-            });
+			enqueue(function(next) {
+				var el = config.el;
+				var speed = config.speed;
+				
+				if (speed == 0) {
+					el.appendChild(document.createTextNode(text));
+					return next();
+				} else {
+					(function print(chars, lastPrint, i) {
+						if (chars[i]) {
+							var now = Date.now();
 
-            return this;
-        },
-        wait: function(time) {
-            // Wait a given number of seconds before continuing.
+							if (lastPrint + 40 / speed < now) {
+								el.appendChild(document.createTextNode(chars[i]));
+								return window.requestAnimationFrame(print.bind(null, chars, now, i + 1));
+							}
 
-            this._enqueue(function(next) {
-                this.timeout = (this.timeout || 0) + parseInt(time * 1000);
-                next();
-            });
+							window.requestAnimationFrame(print.bind(null, chars, lastPrint, i));
+						} else {
+							return next();
+						}
+					})(text.split(""), 0, 0);
+				}
+			});
 
-            return this;
-        },
-        pause: function(time) {
-            return this.wait(time);
-        },
-        clear: function() {
-            // Clear the contents of the root element.
+			return this;
+		};
 
-            this._enqueue(function(next) {
-                this.config.el.textContent = '';
-                next();
-            });
+		this.backspace = function(distance) {
+			// Delete a certain number of characters character-by-character.
+			// Like the inverse of 'write'.
 
-            return this;
-        },
-        break: function(count) {
-            // Add a line break (or specified number of breaks)
+			enqueue(function(next) {
+				var el = config.el;
+				var speed = config.speed;
+				
+				var count = 0;
 
-            if (!count) count = 1;
+				var back = function() {
+					if (el.lastChild) {
+						el.removeChild(el.lastChild);
+						count += 1;
+					}
 
-            this._enqueue(function(next) {
-                for (var i = 0; i < count; i++) {
-                    this.config.el.appendChild(document.createTextNode('\n'));
-                }
-                next();
-            });
+					if (!el.lastChild || count === distance) {
+						return next();
+					}
 
-            return this;
-        },
-        newline: function(count) {
-            return this.break(count);
-        },
-    };
+					return window.setTimeout(back, 50 / speed || 0);
+				};
 
-    // Typewriter Constructor
+				back();
+			});
 
-    var typeWriter = function (config) {
-        var writer = Object.create(Writer);
+			return this;
+		};
 
-        // Validate crucial config items.
+		this.wait = function(time) {
+			enqueue(function(next) {
+				timeout = (timeout || 0) + parseInt(time * 1000);
+				next();
+			});
 
-        var el = (typeof config.el === 'string')
-            ? document.querySelector(config.el)
-            : config.el;
+			return this;
+		};
 
-        if (!el || !(el instanceof HTMLElement)) {
-            throw Error('el property should be either a string or a valid DOM element.');
-        }
+		this.clear = function() {
+			// Clear the contents of the root element.
 
-        // Apply configuration and return the instance.
+			enqueue(function(next) {
+				config.el.textContent = "";
+				next();
+			});
 
-        Object.assign(writer.config, config, { el });
-        return writer;
-    }
+			return this;
+		};
 
-    if (typeof module !== 'undefined') {
-        module.exports = typeWriter;
-    } else if (typeof window !== 'undefined') {
-        window.Typewriter = typeWriter;
-    } else {
-        throw Error('Unknown environment. Both module and window are undefined. Not running.');
-    }
+		this.break = function(count) {
+			// Add a line break (or specified number of breaks)
+
+			if (!count) count = 1;
+
+			enqueue(function(next) {
+				for (var i = 0; i < count; i++) {
+					config.el.appendChild(document.createTextNode("\n"));
+				}
+				next();
+			});
+
+			return this;
+		};
+
+
+		// Aliases and alternate names
+
+		this.pause = this.wait;
+		this.newline = this.break;
+	};
+
+	if (typeof module !== "undefined") {
+		module.exports = Writer;
+	} else if (typeof window !== "undefined") {
+		window.Typewriter = Writer;
+	} else {
+		throw Error("Unknown environment. Both module and window are undefined. Not running.");
+	}
 })();
