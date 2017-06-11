@@ -10,16 +10,9 @@ First, you'll want to include Typewriter on your page and initialize it with you
 <script src="typewriter.js"></script>
 
 <script>
-var writer = Typewriter({
+var writer = new Typewriter({
   speed: 1 // the base speed
-  el: '#typewriter' // the element you want to print to,
-  punctuationDelay: false // Whether typewriter will automatically pause after certain characters...
-  punctuationTiming: { // ...which you can specify here!
-    '.': 400, // Amount of time to wait in milliseconds.
-    '!': 400,
-    '?': 400,
-    ',': 200
-  }
+  el: '#typewriter' // the element you want to print to
 });
 </script>
 ```
