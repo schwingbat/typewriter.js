@@ -30,9 +30,8 @@
 			var listener;
 
 			function onClick() {
-				document.querySelector("#output").textContent = "";
-
 				writer
+					.clear()
 					.speed(1)
 					.write("Welcome to Typewriter!")
 					.wait(0.6)
