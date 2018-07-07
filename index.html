@@ -15,57 +15,86 @@
 		<link rel="stylesheet" href="css/terminal.css">
 	</head>
 	<body>
-		<div id="text-area"><span id="output"></span><span id="type-cursor" class="cursor">&nbsp;</span></div>
+		<div id="text-area"><span id="output">Click to typewrite.</span><span id="type-cursor" class="cursor">&nbsp;</span></div>
 		<div id="user-prompt" class="disabled">
 			&gt; <span id="input"></span><span id="user-cursor" class="cursor disabled">&nbsp;</span>
 		</div>
-		<a class="github" href="github.com/vantaure/typewriter">Get it on GitHub</a>
+		<a class="github" href="https://github.com/schwingbat/typewriter.js">Get it on GitHub</a>
 
-        <script src="js/typewriter.js"></script>
+        <script src="typewriter.js"></script>
         <script>
-    		var tw = new Typewriter({
-                "outputElement": "#output",
-                "cursorElement": "#type-cursor",
-            });
+			// Create the typewriter instance.
+			// Give it a container to put the text in (and optionally one to use as the cursor.)
+			var writer = new Typewriter({ el: "#output" });
 
-            // The New, Wonderful Chain Method
+			var listener;
 
-            tw.chain([
-                "[write, 1, 120]Welcome to Typewriter! 130 lines of Javascript with no practical purpose other than to look totally badass! It types out whatever text you give it,",
-                "[write, 0.3, 300] at whatever speed you want!",
-                "[write, 1, 500]\n\nAnd you can even",
-                "[write, 1, 500] control",
-                "[write, 1, 500] the",
-                "[write, 1, 1400] timing!",
-                "[clear, 400]",
-                "[write, 1, 300]Or clear the screen and start again!\n\n",
-                "[write, 1, 500]It's completely stylable with CSS, so if you're not in the mood to hack the planet you can toss this terminal theme and write your own.\n\n",
-                "[write, 1, 500]If you know JavaScript, feel free to contribute. And feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/vantaure/typewriter.js"
-            ])
+			function onClick() {
+				writer
+					.clear()
+					.speed(1)
+					.write("Welcome to Typewriter!")
+					.wait(0.6)
+					.write(" 200 lines of JavaScript with no practical purpose other than to look totally badass! ")
+					.wait(2)
+					.write("It types out whatever text you give it, ")
+					.wait(2)
+					.speed(0.3)
+					.write("at whatever speed you want!")
+					.speed(1)
+					.wait(3)
+					.break()
+					.wait(0.2)
+					.break()
+					.wait(0.5)
+					.write("And you can even ")
+					.wait(1)
+					.write("control ")
+					.wait(1)
+					.write("the ")
+					.wait(1)
+					.write("timing!")
+					.wait(2)
+					.clear()
+					.wait(0.5)
+					.write("Or clear the screen and start again!")
+					.wait(2)
+					.speed(0.7)
+					.backspace(" and start again!".length)
+					.wait(1)
+					.write(". Or backspace and write it again?!")
+					.wait(2)
+					.break()
+					.break()
+					.write("WHAT!?")
+					.break()
+					.break()
+					.wait(2)
+					.write("Ahem...")
+					.break()
+					.wait(0.2)
+					.break()
+					.wait(0.5)
+					.speed(1)
+					.write("It's completely styleable with CSS, so if you're not in the mood to hack the planet you can toss this terminal theme and write your own.")
+					.break()
+					.wait(0.3)
+					.break()
+					.wait(0.5)
+					.write("Feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/schwingbat/typewriter.js")
+					.wait(2)
+					.break()
+					.break()
+					.write("Also there's a link in the bottom right corner.")
+					.wait(1)
+					.break()
+					.break()
+					.write("Seriously, check it out.");
 
-            // The Old, Horrible Callback Hell Method
+				window.removeEventListener("click", onClick);
+			}
 
-    		// tw.write(
-    		// 	"Welcome to Typewriter! 100 lines of JavaScript with no practical purpose other than to look totally badass! It types out whatever text you give it,", 1, 120, function() {
-    		// 		tw.write(" at whatever speed you want!", 0.3, 300, function() {
-    		// 			tw.write("\n\nAnd you can even", 1, 500, function() {
-    		// 				tw.write(" control", 1, 500, function() {
-    		// 					tw.write(" the", 1, 500, function() {
-    		// 						tw.write(" timing!", 1, 1400, function() {
-    		// 							tw.clear(function() {
-    		// 								tw.write("Or clear the screen and start again!\n\n", 1, 300, function() {
-    		// 									tw.write("It's completely stylable with CSS, so if you're not in the mood to hack the planet, you can toss this terminal theme and write your own!\n\n", 1, 500, function() {
-    		// 										tw.write("If you know JavaScript, feel free to contribute. And feel free to use Typewriter for whatever you want. It's distributed under an MIT license and the source is available at github.com/vantaure/typewriter.js");
-    		// 									});
-    		// 								});
-    		// 							}, 400);
-    		// 						});
-    		// 					});
-    		// 				});
-    		// 			});
-    		// 		});
-    		// 	});
-
+			listener = window.addEventListener("click", onClick);
     	</script>
 	</body>
 </html>
